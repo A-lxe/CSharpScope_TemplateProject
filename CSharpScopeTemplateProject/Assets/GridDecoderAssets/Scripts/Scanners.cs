@@ -85,6 +85,8 @@ public class Scanners : MonoBehaviour
 	public string _colorSettingsFileName = "_sampleColorSettings.json";
 	private bool shouldReassignTexture;
 
+	public GameObject MarkerPrefab;
+
 	private Texture2D hitTex;
 
 	private Color[] allColors;
@@ -126,8 +128,8 @@ public class Scanners : MonoBehaviour
 			////
 			yield return new WaitForSeconds (_refreshRate);
 			// Assign render texture from keystoned quad texture copy & copy it to a Texture2D
-			//if (_useWebcam || shouldReassignTexture)
-			AssignRenderTexture ();
+			if (_useWebcam || shouldReassignTexture)
+				AssignRenderTexture ();
 			yield return new WaitForEndOfFrame ();
 			UpdateScanners ();
 		}
@@ -460,13 +462,12 @@ public class Scanners : MonoBehaviour
 	{
 		for (int x = 0; x < numOfScannersX; x++) {
 			for (int y = 0; y < numOfScannersY; y++) {
-				_scanner = GameObject.CreatePrimitive (PrimitiveType.Quad);
+				_scanner = Instantiate(this.MarkerPrefab);
 				_scanner.name = "grid_" + y + numOfScannersX * x;
 				_scanner.transform.parent = _gridParent.transform;
 				_scanner.transform.localScale = new Vector3 (_scannerScale, _scannerScale, _scannerScale);  
 				float offset = GameObject.Find (colorTexturedQuadName).GetComponent<Renderer> ().bounds.size.x * 0.5f;
 				_scanner.transform.localPosition = new Vector3 (x * _scannerScale * 2 - offset, 0.2f, y * _scannerScale * 2 - offset);
-				_scanner.transform.Rotate (90, 0, 0); 
 				scannersList[x, y] = this._scanner;
 			}
 		}

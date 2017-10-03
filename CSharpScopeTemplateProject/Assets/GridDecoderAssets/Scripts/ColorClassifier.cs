@@ -106,14 +106,14 @@ public class ColorClassifier {
 		m.renderQueue = 3000;
 
 		for (int i = 0; i < colors.Length; i++) {
-			colorSpheres [i] = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-			colorSpheres [i].GetComponent<Renderer> ().material = m;
+			colorSpheres [i] = (GameObject) GameObject.Instantiate(Resources.Load("Prefabs/ColorProjMarkerPrefab"));
+			colorSpheres [i].transform.GetChild(0).GetComponent<Renderer> ().material = m;
 			colorSpheres [i].transform.parent = colorSpaceParent.transform;
 			colorSpheres [i].transform.localScale = new Vector3 (r, r, r);
 			colorSpheres [i].transform.localPosition = new Vector3 (colors[i].r * multiplier, colors[i].g * multiplier, colors[i].b * multiplier);
 			currColor = colors [i];
 			currColor.a = opacity;
-			colorSpheres [i].GetComponent<Renderer> ().material.color = currColor;
+			colorSpheres [i].transform.GetChild(0).GetComponent<Renderer> ().material.color = currColor;
 			colorSpheres [i].transform.name = "Color sample + " + currColor;
 		}
 	}
@@ -130,7 +130,7 @@ public class ColorClassifier {
 			colorSpheres [i].transform.localPosition = new Vector3 (colors[i].r * multiplier, colors[i].g * multiplier, colors[i].b * multiplier);
 			currColor = colors [i];
 			currColor.a = opacity;
-			colorSpheres [i].GetComponent<Renderer> ().material.color = currColor;
+			colorSpheres [i].transform.GetChild(0).GetComponent<Renderer> ().material.color = currColor;
 			colorSpheres [i].transform.name = "Color sample + " + currColor;
 		}
 
